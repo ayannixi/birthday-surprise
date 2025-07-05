@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, Lovey!</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(#ffe6f0, #fff);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 2rem;
+    }
+    .question-box, .letter-box, .cake-box, .coupon-box, .final-box {
+      display: none;
+      margin-top: 2rem;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin-top: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff80b3;
+      color: white;
+      cursor: pointer;
+    }
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 80%;
+    }
+    .hidden { display: none; }
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="https://www.youtube.com/embed/XPBwXKgDTdE" type="audio/mpeg">
+  </audio>
+
+  <div class="container">
+    <h1>🎉 Happy Birthday, Lovey! 🎉</h1>
+    <p>Answer these questions to unlock your birthday letter!</p>
+
+    <div class="question-box" id="q1">
+      <p>1. Where did we first meet?</p>
+      <input type="text" id="a1" />
+      <button onclick="checkAnswer(1, 'rpw')">Submit</button>
+      <p id="e1" style="color: red;"></p>
+    </div>
+    <div class="question-box" id="q2">
+      <p>2. When did we first meet?</p>
+      <input type="text" id="a2" />
+      <button onclick="checkAnswer(2, 'april')">Submit</button>
+      <p id="e2" style="color: red;"></p>
+    </div>
+    <div class="question-box" id="q3">
+      <p>3. What’s my fave endearment to call you?</p>
+      <input type="text" id="a3" />
+      <button onclick="checkAnswer(3, 'lovey')">Submit</button>
+      <p id="e3" style="color: red;"></p>
+    </div>
+    <div class="question-box" id="q4">
+      <p>4. What nickname I often call you when I teased you?</p>
+      <input type="text" id="a4" />
+      <button onclick="checkMultiAnswer(4, ['asim', 'yuyay', 'buhay'])">Submit</button>
+      <p id="e4" style="color: red;"></p>
+    </div>
+    <div class="question-box" id="q5">
+      <p>5. When’s our monthsarry?</p>
+      <input type="text" id="a5" />
+      <button onclick="checkAnswer(5, 'april 9')">Submit</button>
+      <p id="e5" style="color: red;"></p>
+    </div>
+
+    <div class="letter-box" id="letter">
+      <h2>💌 A Letter for You</h2>
+      <p style="text-align: left; white-space: pre-line">
+Happiest Birthday, my love!
+
+Welcome to the age of legality! Hala, matanda ka na, kidding aside, I hope you enjoy your special day. May it be filled with laughter, joy, and unforgettable moments.
+
+Hmm So, paano ba 'to? Ang hirap simulan ng neto juskoHAHAHAano, wala, joke lang. Ahmm lovey thank you for everything. Thank you for staying and putting up with my attitude, kahit alam nating dalawa na mahirap talaga i-handle 'tong ugali ko. Thank you for understanding my situation, even when I become cold sometimes. Thank you for loving and handling the whole me, flaws and all without complaints.
+
+Alam kong nahihirapan ka na rin minsan, but still, you choose to stay and choose me every single day. I know a lot has changed in me, but you continue to accept all of it wholeheartedly. May we celebrate more birthdays, monthsaries, and anniversaries together. My only wish for you is a prosperous and healthy life. Sana matupad mo lahat ng dreams and goals mo with or without me. I want to see you succeed in life, kaya sana huwag kang susuko kahit mahirap na minsan.
+
+As we Waray people say, “Padayon” or in other words keep going and keep figthing. I hope you keep going despite all the challenges and obstacles life throws your way.
+
+Again, Happy Birthday, my love, padayon, future engineer ♥
+      </p>
+      <button onclick="showCake()">Next 🎂</button>
+    </div>
+
+    <div class="cake-box" id="cake">
+      <h2>🎂 Blow the Candles!</h2>
+      <img src="https://i.ibb.co/hZqRLKb/cake.png" alt="cake" width="200">
+      <p>Tap to blow the candles!</p>
+      <button onclick="showCoupons()">*Blows*</button>
+    </div>
+
+    <div class="coupon-box" id="coupons">
+      <h2>🎁 Love Coupons</h2>
+      <ul style="text-align: left; display:inline-block;">
+        <li>One long hug whenever you want</li>
+        <li>Movie night – your pick</li>
+        <li>Good morning video call for a week</li>
+        <li>One wish pass – no questions asked 😉</li>
+        <li><b>1 day intimate time 😳</b></li>
+      </ul>
+      <button onclick="showFinal()">Last Message 💖</button>
+    </div>
+
+    <div class="final-box" id="final">
+      <h2>🎊 Thank You for Being Born</h2>
+      <p>I love you always and forever, Lovey!</p>
+    </div>
+  </div>
+
+  <script>
+    let current = 1;
+    document.getElementById("q" + current).style.display = "block";
+
+    function checkAnswer(num, answer) {
+      const input = document.getElementById("a" + num).value.toLowerCase().trim();
+      if (input === answer.toLowerCase()) {
+        document.getElementById("q" + num).style.display = "none";
+        if (num < 5) {
+          document.getElementById("q" + (num + 1)).style.display = "block";
+        } else {
+          document.getElementById("letter").style.display = "block";
+        }
+      } else {
+        document.getElementById("e" + num).innerText = "Error lovey 😘 try again!";
+      }
+    }
+
+    function checkMultiAnswer(num, answers) {
+      const input = document.getElementById("a" + num).value.toLowerCase().trim();
+      if (answers.includes(input)) {
+        document.getElementById("q" + num).style.display = "none";
+        document.getElementById("q" + (num + 1)).style.display = "block";
+      } else {
+        document.getElementById("e" + num).innerText = "Error lovey 😘 try again!";
+      }
+    }
+
+    function showCake() {
+      document.getElementById("letter").style.display = "none";
+      document.getElementById("cake").style.display = "block";
+    }
+
+    function showCoupons() {
+      document.getElementById("cake").style.display = "none";
+      document.getElementById("coupons").style.display = "block";
+    }
+
+    function showFinal() {
+      document.getElementById("coupons").style.display = "none";
+      document.getElementById("final").style.display = "block";
+    }
+  </script>
+</body>
+</html>
